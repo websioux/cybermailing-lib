@@ -1,0 +1,165 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+	<title>Librarie client de l'API CyberMailing : readme </title>
+	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+	<meta http-equiv="content-language" content="fr" />
+<style>
+body{background-image:url(../img.jpg); background-size: 130%}
+h1,h2,h3,h4 {margin:20px; font-family:monospace;}
+pre {margin-left:30px;}
+.container{margin:0px;}
+.page{margin:auto; width:1000px;}
+.head{color:rgb(24, 118, 180);}
+.main{background-color:rgba(255, 255, 255, 0.93); padding:10px 0 10px 0;}
+.instructions{border:1px solid rgb(161, 197, 168); background-color:rgb(211, 236, 211); margin-right:20px;}
+.bottom{color:white; padding-top:5px}
+</style>	
+</head>
+<body>
+<div class="container">
+<div class="page">
+<div class="head">
+<h1>Librarie client de l'API CyberMailing / ECOUTE</h1>
+</div>	
+<div class="menu"></div>	
+<div class="main">
+
+<h2>Choix des Fonctionalités</h2>
+<pre>Le dossier /cybermailing-api-client/listen/ contient 3 fichiers destinés à recevoir les informations
+envoyés par CyberMailing afin d'en réaliser une archive personnelle. CyberMailing envoi les informations
+lors de l'inscriptions ou de la désinscription d'un abonné.
+
+- /cybermailing-api-client/listen/inscription.php
+- /cybermailing-api-client/listen/annulation.php
+- /cybermailing-api-client/listen/avant_validation.php
+
+Pour que CyberMailing appelle un url il faut que celui-ci ait été enregistré dans :
+l'interface utilisateur cybermailing >> configuration de liste >> configuration avancée
+dans les champs respectifs :
+
+- "Script après confirmation" (ou "script inscription")
+- "Script de désinscription"
+- "Script avant confirmation"
+
+l'url du script inscription.php peut aussi être renseigné dans le champs "Script de mise à jour".
+
+Chaque script offre 3 fonctionalités qui peuvent être activée ou désactivées indépendamment.
+
+Ces fonctionnalité sont :
+
+- écrire les données dans des fichiers log,
+- écrire dans une table d'une base de donnée,
+- envoyer un email à un destinataire
+
+à l'installation, les fonctionnalités activées par défaut sont celles ci :
+
+<table border = 1>
+<tr><td>Nom du fichier</td><td>Envoi Email notification</td><td>Archive fichier log</td><td>Archive
+Mysql</td></tr>
+<tr align = center><td>inscription.php</td><td>x</td><td>x</td><td>x</td></tr>
+<tr align = center><td>annulation.php</td><td>x</td><td>x</td><td>x</td></tr>
+<tr align = center><td>avant_validation.php</td><td></td><td></td><td>x</td></tr>
+</table>
+
+<div class="instructions">Pour activer/désactiver une fonctionalité, il suffit de la placer sur "ON" (activé)
+ou sur "OFF" "désactivé" dans le fichier correspondant.</div>
+
+Par exemple, si vous n'avez pas de base de donnée MYSQL, vous devrez modifier les 3 fichiers :
+inscription.php, annulation.php, avant_validation.php pour désactiver l'archive MYSQL en indiquant : 
+
+DEFINE("FONCTION_LOG_MYSQL","OFF"); [au lieu du "ON"initialement paramêtré]
+
+A ce stade vous devez donc définir les fonctionalités que vous souhaitez activer.
+</pre>
+
+<H2>Edition du fichier config-basic-feedback.php</H2>
+
+<pre>En fonction des fonctionnalités que vous souhaitez utiliser, vous devez y préciser :
+
+<div class="instructions">- l'adresse email du destinataire
+- les informations de connection à votre base de donnée MYSQL (host, user, password, nom de la base)
+- Le suffix du nom du fichier log qui sera utilisé pour l'enregistrement dans un fichier texte
+</div>
+
+Par exemple si vous ne souhaitez pas utiliser l'archivage dans une base de donnée mysql, vous pouvez
+conserver les valeurs par défaut.</pre>
+
+<h2>Upload du dossier /cybermailing-api-client</h2>
+<pre><div class="instructions">Vous pouvez à présent charger ce dossier à la racine de votre site.</div></pre>
+<h2>Vérification de l'installation</h2>
+
+<pre><div class="instructions">Rendez vous à présent sur : http://votredomaine.com/cybermailing-api-client/listen/install.php</div>
+
+Sur la base des fonctionalités indiquées dans le script inscription.php, le script install.php va:
+- créer la base de donnée
+- vérifier que la librairie pourra écrire un fichier texte
+- vous envoyer un email
+- vous indiquer ce qui est fonctionne et ce qui ne fonctionne pas.</pre>
+
+<h2>Finalisation de l'installation</h2>
+<pre>
+La dernière étape consiste à :
+<div class="instructions">vous rendre dans la configuration de listes CyberMailing
+pour spécifier l'adresses des scripts que vous souhaitez que cybermailing appelle.</div>
+
+<b>REMARQUE</b> : l'archive de données avant validation n'est pas vraiement nécéssaire, seules les données
+d'inscription et d'annulation sont importantes.</pre>
+
+<H2>Extension de la table de la base de donnée avec vos champs personnalisés</H2>
+
+<pre>Le script est conçu pour stocker, par défaut, dans la MYSQL les donnée suivantes :
+
+cyber_id : l'identifiant de l'inscription de l'abonné
+name : le nom fourni par le formulaire d'inscription dans le champs "Name"
+email : le email fourni par le formulaire d'inscription dans le champs "Email"
+list : le numéro de liste fourni par le formulaire d'inscription dans le champs "Liste"
+ip : l'adresse ip du visiteur qui remplit le formulaire
+date : la date d'inscription
+url : l'url sur lequel se trouve le formulaire
+etat : vaut : "à valider", "validé", "annulé" selon l'action effectuée
+
+Si vos formulaire, demandent d'autres données (par exemple : prenom, departement, preference),
+pour que ces données soient enregistrées dans la table Mysql il faudra ajouter des colonnes à la table
+"CYBERMAILING_log" qui stocke les données.
+
+Pour cela, vous devrez vous rendre dans PHPmyadmin, l'interface de gestion de base de donnée fournie
+dans votre hébergement.
+
+Vous devrez sélectionner la table CYBERMAILING_log (visible dans le panneau de gauche), puis dans "structure",
+en bas de page vous devrez indiquer le nombre de champs que vous souhaitez ajouter. Dans notre exemple nous
+entrerons 3.
+<img src = http://www.cyber-mailing.com/images/tuto/extension_sauvegarde_1.png>
+
+
+Ensuite, PHPmyadmin vous demandera de donner des noms et des informations sur la nature de ces champs,
+Il vous suffit de remplir :
+le nom
+selectionner le type VARCHAR
+et indiquer la taille maximum du champs concerné (indiquez 255, c'est le maximum, pour ne pas vous prendre la tête,
+ou moins, si vous souhaitez optimiser la taille de votre base de donnée).
+cliquez sur sauvegarder.
+<img src = http://www.cyber-mailing.com/images/tuto/extension_sauvegarde_2.png>
+
+Votre table est alors prête à recevoir ces données supplémentaires, il n'y a pas besoin de modifier le script.</pre>
+
+<h2>Problèmes courrants & leur solution</h2>
+<pre><i>Fichier Log et droits 0777</i>
+
+Pour que les script puissent créer un fichier et écrire dedans, il faut le répertoire /cybermailing-api-client/listen/log
+ait les droits appropriés. Dépendamment de la configuration de votre serveur cela sera ou non le cas.
+
+A l'installation, le script tente de créer un fichier et d'écrire dedans, et vous prévient si il n'y parvient pas.
+Le message d'erreur indique qu'il faut changer les droits du répertoire pour 0777.
+</pre>
+
+</div>	
+<div class="bottom">
+Librairie offerte par CyberMailing inc
+</div>	
+</div>
+</div>
+
+</body>
+</html>
+

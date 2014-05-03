@@ -1,0 +1,130 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+	<title>Librarie client de l'API CyberMailing : readme </title>
+	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+	<meta http-equiv="content-language" content="fr" />
+<style>
+body{background-image:url(img.jpg); background-size: 130%}
+h1,h2,h3,h4 {margin:20px; font-family:monospace;}
+pre {margin-left:30px;}
+.container{margin:0px;}
+.page{margin:auto; width:1000px;}
+.head{color:rgb(24, 118, 180);}
+.main{background-color:rgba(255, 255, 255, 0.93); padding:10px 0 10px 0;}
+.instructions{border:1px solid rgb(161, 197, 168); background-color:rgb(211, 236, 211); margin-right:20px;}
+.bottom{color:white; padding-top:5px}
+</style>	
+</head>
+<body>
+
+<div class="container">
+<div class="page">
+<div class="head">
+<h1>Librarie client de l'API CyberMailing.</h1>
+</div>	
+<div class="menu"></div>	
+<div class="main">
+
+<h2>Introduction</h2>
+
+<pre>
+Cette libraire permet aux sites des utilisateurs de cyberMailing de communiquer avec la base de donnée
+de CyberMailing.
+
+Elle est composée de 2 fonctions primaires :
+
+1. la fonction "écoute" (listen) qui permet à votre site de recevoir des informations
+en provenance de cybermailing. CyberMailing y communique les informations
+liées à l'inscription et à la désinscription des abonnés.
+
+2. La fonction "parole" (talk) qui permet à votre site de transmettre des informations
+à cybermailing. Cette partie vous permet de réaliser des opérations sur les abonnés
+directement de serveur à serveur et d'utiliser les fonctions de désinscription
+de confirmation et de tracking directement sur votre site. 
+
+Dans un futur proche, des moyens d'envoyer des emails de votre système
+via votre serveur dédié cybermailing y seront ajoutés.
+
+<b>Important</b> : La fonction <b>"parole"</b> ne peut être utilisée que par les clients qui
+utilisent la Formule <b>CyberMailing PRO</b>.
+</pre>
+
+<h2>Pré-Requis</h2>
+<pre>
+Apahe2, PHP 5.3+
+(Mysql 5.+  en option pour la partie écoute, si l'option sauvegarde sous mysql est utilisée).
+</pre>
+
+<h2>Installation</h2>
+
+<pre>Remarque :
+Les 2 fonctions primaires sont indépendantes, et gérées par des fichiers de configuration distincts.
+Si vous souhaitez n'utiliser qu'une fonction, vous pouvez ignorer tout ce qui concerne l'autre.</pre>
+
+<h3>1. Dézipper l'archive sur votre ordinateur</h3>
+
+<pre>Vous obtenez un dossier /cybermailing-api-client</pre>
+
+<h3>2. Modifier les fichiers de configuration</h3>
+	<h4>A. Fonction Ecoute (Toutes Formules)</h4>
+	
+	<pre><div class="instructions">Modifiez le fichier	: /cybermailing-api-client/config_basic_listen.php</div>
+	Il contient des explications, il s'agit des informations nécessaires pour utiliser
+	les fonctionalités de sauvegarde disponibles (accès mysql, adresses emails, suffix
+	du nom du fichier texte de sauvegarde).
+
+	Si vous ne souhaitez pas utiliser une fonctionalité, vous pouvez laisser les valeurs par défaut.
+
+	Pour préciser vos fonctionalités et les utiliser <a href="./listen/Lisez_moi.htm">continuez ici</a></pre>
+		
+	<h4>B. Fonction Parole (Formule PRO seulement)</h4>
+
+	<pre><div class="instructions">Modifiez le fichier	: /cybermailing-api-client/config_PRO_talk.php </div>
+	Dans la plupart des cas, il suffit d'y indiquer votre clef secrête que vous trouvez dans votre zone profil.
+	Voir votre interface cybermailing : "Mon Compte" >> "Mon Profil".
+
+	Vous pouvez aussi y modifier le nom de la variable de tracking si celle par défaut ne vous convient pas
+	ainsi que celle de redirection si vous envisagez d'utiliser cette fonctions et que la valeur par défaut
+	ne vous convient pas.</pre>
+	 
+	<pre>Ajoutez les 2 lignes suivantes au .htaccess de votre site :
+	<div class="instructions">
+	AddType application/x-httpd-php .html .htm 
+	php_value auto_prepend_file "/home/web/votresite/cybermailing-api-client/_init.php"
+	</div>
+
+	Remarque PRESTASHOP :
+	Le fichier .htacess pouvant être modifié par prestashop, ces lignes doivent être insérées
+	via le générateur de .htacess qui se trouve dans le backOffice.
+	Via : "outils" >> "generateurs" >> "configuration specifique"
+	
+	Vous devrez toutefois remplacer /home/web/votresite/ par le chemin absolu de votre site sur le serveur
+	sur lequel il est installé. Si vous ne connaissez pas cette information consultez le guide détaillé pour
+	des instructions vous permettant d'obtenir cette information.
+
+	Si votre site n'a pas de fichier .htaccess, créez un fichier avec un éditeur de texte simple
+	(type bloc note / notepad, surtout pas word !) que vous nommez .htaccess
+	(il n'y a rien avant le point) et placez y la ligne ci-dessus en ayant modifié /home/web/votresite/
+	par votre chemin</pre>
+
+	<pre>Pour exploiter les possibilités de la fonction parole consultez :
+	<a href="CyberMailingAPIGuideutilisateurRapide.pdf">Le guide rapide</a>
+	ou <a href="CyberMailingAPIGuideutilisateur.pdf">Le guide détaille</a></pre>
+	
+<h3>3. Uploader le dossier /cybermailing-api-client à la racine de votre site.</h3>
+
+<pre>Félicitation vous avez terminé !
+
+</pre>
+
+	
+</div>	
+<div class="bottom">
+Librairie offerte par CyberMailing inc
+</div>	
+</div>
+</div>
+
+</body>
+</html>
