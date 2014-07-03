@@ -103,12 +103,16 @@ class cyberMailing_connect {
 			$sSafeApiUrl = str_replace('http://','',URL_CYBERMAILING_API);
 			switch($aInfo['function']){
 				case 'tracking':
-					$sCurlUrl = 'http://'.$sSafeApiUrl .'/link/?'.$aInfo['tracking_id'];
+					$sCurlUrl = 'http://'.$sSafeApiUrl .'/link/?'.$aInfo['tracking_id'].'&api';
 					$ch = curl_init($sCurlUrl);
+					curl_setopt($ch,CURLOPT_FOLLOWLOCATION,FALSE);
+					curl_setopt($ch,CURLOPT_RETURNTRANSFER,TRUE);
 					break;
 				case 'confirm':
-					$sCurlUrl =  'http://'.$sSafeAppUrl .'validsub.php?Id='.$aInfo['tracking_id'];
+					$sCurlUrl =  'http://'.$sSafeAppUrl .'validsub.php?Id='.$aInfo['tracking_id'].'&api';
 					$ch = curl_init($sCurlUrl);
+					curl_setopt($ch,CURLOPT_FOLLOWLOCATION,FALSE);
+					curl_setopt($ch,CURLOPT_RETURNTRANSFER,TRUE);
 					break;
 				default :
 					$sCurlUrl = 'http://'.$sSafeApiUrl . '/talk.php';
