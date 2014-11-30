@@ -11,6 +11,7 @@ class cyberMailing_connect {
 	const _cyberKey = CYBER_KEY; 
 	const _trackVar = CYBER_TRACKVAR; 
 	const _redirectID = CYBER_REDIRECTID; 
+	const _dbug = 0; 
 	
 	private static function array_implode( $glue, $separator, $array ) 
 	{
@@ -101,6 +102,7 @@ class cyberMailing_connect {
 
 		if($mode == 'synchrone') {	// mode syncrhone
 			$sSafeApiUrl = str_replace('http://','',URL_CYBERMAILING_API);
+			$sSafeAppUrl = str_replace('http://','',URL_CYBERMAILING_APP);
 			switch($aInfo['function']){
 				case 'tracking':
 					$sCurlUrl = 'http://'.$sSafeApiUrl .'/link/?'.$aInfo['tracking_id'].'&api';
@@ -125,15 +127,15 @@ class cyberMailing_connect {
 					break;
 			}
 			$sDbug = '';
-			if(isset($_GET['CBM_dbug']))
+			if(self::_dbug)
 				$sDbug = '<div class="dbug section action">Query sent to CyberMailing => </div><div class="dbug body">'.$sCurlUrl.'<br>
 				POST DATA : '.var_export($aInfo,true).'
 				</div>';
-			$sCurlReturn = curl_exec($ch);
-			curl_close($ch);
-			if(isset($_GET['CBM_dbug']))
+				$sCurlReturn = curl_exec($ch);
+				curl_close($ch);
+			if(self::_dbug)
 				$sDbug .= '<div class="dbug section response"> <= Response from CyberMailing </div><div class="dbug body">'.$sCurlReturn .'</div>';
-			if(!empty($sDbug) && $_GET['CBM_dbug'] == $aInfo['CyberKey'] )
+			if(self::_dbug)
 				echo '<style>	.dbug{padding:5px; font-family: "monospace","sans-serif"; font-size: 80%;}
 							.section{background-color:#000B2C;}
 							.body{margin-bottom:10px; background-color:#F1F1F1;}
