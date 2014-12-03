@@ -42,7 +42,7 @@ class cyberMailing_connect {
 	   
 	}
 
-	public function checkInput($aInfo) {
+	public static function checkInput($aInfo) {
 		if(empty($aInfo['function']))
 			die('ERROR : cybermailing api client function is missing');
 		if(empty($aInfo['CyberKey']))
@@ -76,7 +76,7 @@ class cyberMailing_connect {
 		return $aInfo;	
 	}
 	
-	public function talk($aInfo,$mode='synchrone') {
+	public static function talk($aInfo,$mode='synchrone') {
 		global $sDbug;
 //		print_r($aInfo); die;
 		$aInfo = self::checkInput($aInfo);
