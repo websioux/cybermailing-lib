@@ -1,85 +1,100 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
-<HTML>
-<HEAD>
-<TITLE></TITLE>
-<META NAME="Generator" CONTENT="TextPad 4.6">
-<META NAME="Author" CONTENT="?">
-<META NAME="Keywords" CONTENT="?">
-<META NAME="Description" CONTENT="?">
-</HEAD>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+	<title>Librarie client de l'API CyberMailing : readme </title>
+	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+	<meta http-equiv="content-language" content="fr" />
+<style>
+body{background-image:url(../img.jpg); background-size: 130%}
+h1,h2,h3,h4 {margin:20px; font-family:monospace;}
+pre,p {margin-left:30px;}
+.container{margin:0px;}
+.page{margin:auto; width:1000px;}
+.head{color:rgb(24, 118, 180);}
+.main{background-color:rgba(255, 255, 255, 0.93); padding:10px 0 10px 0;}
+.instructions{border:1px solid rgb(161, 197, 168); background-color:rgb(211, 236, 211); margin-right:20px;}
+.bottom{color:white; padding-top:5px}
+</style>	
+</head>
+<body>
 
-<BODY BGCOLOR="#FFFFFF" TEXT="#000000" LINK="#FF0000" VLINK="#800000" ALINK="#FF00FF"
-BACKGROUND="?">
+<div class="container">
+<div class="page">
+<div class="head">
+<h1>Librarie client de l'API CyberMailing - ECOUTE</h1>
+</div>	
+<div class="menu"></div>	
+<div class="main">
 
 <h2>Objet</h2>
-<p>Ce jeu de script est destiné à recevoir les informations envoyés par CyberMailing afin d'en réaliser une
-archive personnelle. Il reçoit les informations lors d'une inscription, d'une confirmation d'inscription, d'une mise à jour de données ou d'une annulation,
-lorsque l'un des champs de la configuration de liste: "script inscription", "script annulation", "script avant validation", "script de mise à jour"
-a été défini.</p>
+<p>Ce jeu de script est destinÃ© Ã  recevoir les informations envoyÃ©s par CyberMailing afin d'en rÃ©aliser une
+archive personnelle. Il reÃ§oit les informations lors d'une inscription, d'une confirmation d'inscription, d'une mise Ã  jour de donnÃ©es ou d'une annulation,
+lorsque l'un des champs de la configuration de liste: "script inscription", "script annulation", "script avant validation", "script de mise Ã  jour"
+a Ã©tÃ© dÃ©fini.</p>
 
-<P>Le script peut être parâmetré pour réaliser les 3 actions suivantes:
-<br>- file : écrire les données dans des fichiers logs,
-<br>- mysql : écrire les données dans une table d'une base de donnée,
-<br>- email : envoyer un email à une adresse que vous indiquez
+<P>Le script peut Ãªtre parÃ¢metrÃ© pour rÃ©aliser les 3 actions suivantes:
+<br>- file : Ã©crire les donnÃ©es dans des fichiers logs,
+<br>- mysql : Ã©crire les donnÃ©es dans une table d'une base de donnÃ©e,
+<br>- email : envoyer un email Ã  une adresse que vous indiquez
 </p>
 
-<p>Ces trois actions sont activables et désactivables à volonté pour chacun contextes suivants
+<p>Ces trois actions sont activables et dÃ©sactivables Ã  volontÃ© pour chacun contextes suivants
 <br>- "inscription en attente de confirmation",
 <br>- "inscription valide",
-<br>- "mise à jour d'information",
-<br>- "désinscription"</p>
+<br>- "mise Ã  jour d'information",
+<br>- "dÃ©sinscription"</p>
 
-<p>Vous spécifiez vos préférences d'action en fonction du contexte dans le fichier "definition.php"</p>
+<p>Vous spÃ©cifiez vos prÃ©fÃ©rences d'action en fonction du contexte dans le fichier "definition.php"</p>
 
-<H2>Pré-requis</H2>
-<p>Ces scripts nécessitent PHP et MYSQL en option</p>
-<p>Ils ont été testés sur un serveur Appache disposant de PHP5 et MYSQL5</p>
+<H2>PrÃ©-requis</H2>
+<p>Ces scripts nÃ©cessitent PHP et MYSQL en option</p>
+<p>Ils ont Ã©tÃ© testÃ©s sur un serveur Appache disposant de PHP5 et MYSQL5</p>
 
 <H2>Instruction d'installation</H2>
 <p>
-<b>1.</b> Etraire l'archive sur votre ordinateur. (Téléchargez le logiciel 7zip si nécessaire)<br><br>
-<b>2.</b> Uploader le répertoire "cybermailing-lib-master" sur votre serveur avec tous les fichiers qu'ils contient<br><br>
-<b>3.</b> Ouvrez le fichier "cybermailing-lib-master/listen/definition.php", et modifiez les données indiquées.<<br><br>
+<b>1.</b> Etraire l'archive sur votre ordinateur. (TÃ©lÃ©chargez le logiciel 7zip si nÃ©cessaire)<br><br>
+<b>2.</b> Uploader le rÃ©pertoire "cybermailing-lib-master" sur votre serveur avec tous les fichiers qu'ils contient<br><br>
+<b>3.</b> Ouvrez le fichier "cybermailing-lib-master/listen/definition.php", et modifiez les donnÃ©es indiquÃ©es.<<br><br>
 
 Vous devrez y indiquer :<br><br>
 - votre adresse email<br>
-- les informations de connection à votre base de donnée MYSQL (host, user, password, nom de la base) si vous souhaitez ce mode d'archivage<br>
-- vos préférences: quel contexte déclenche quelle action
-(il suffit de mettre un 0 ou un 1 en face du couple ["contexte"]["action"] pour désactiver ou activer l'action correpondante )
+- les informations de connection Ã  votre base de donnÃ©e MYSQL (host, user, password, nom de la base) si vous souhaitez ce mode d'archivage<br>
+- vos prÃ©fÃ©rences: quel contexte dÃ©clenche quelle action
+(il suffit de mettre un 0 ou un 1 en face du couple ["contexte"]["action"] pour dÃ©sactiver ou activer l'action correpondante )
 
-<br><br> Si vous n'avez pas de base de donnée MYSQL, vous devrez désactiver les enregistrements mysql dans le fichier définition
+<br><br> Si vous n'avez pas de base de donnÃ©e MYSQL, vous devrez dÃ©sactiver les enregistrements mysql dans le fichier dÃ©finition
 
-<b>4. </b>Vérifier l'installation, en vous rendant sur votre site avec un navigateur à l'adresse
+<b>4. </b>VÃ©rifier l'installation, en vous rendant sur votre site avec un navigateur Ã  l'adresse
 cybermailing-lib-master/listen/install et suivre les instructions.<br><br>
 
-<b>5.</b> Une fois l'installation terminée, vous rendre dans la définition de vos listes CyberMailing (sur cybermailing.com)
-pour spécifier l'adresses de votre script d'inscription, d'annulation et avant validation<br><br>
+<b>5.</b> Une fois l'installation terminÃ©e, vous rendre dans la dÃ©finition de vos listes CyberMailing (sur cybermailing.com)
+pour spÃ©cifier l'adresses de votre script d'inscription, d'annulation et avant validation<br><br>
 
-<H2>Problèmes courrants & leur solution</H2>
+<H2>ProblÃ¨mes courrants & leur solution</H2>
 
 <b>Fichier Log et droits 0777</b>
 
-<p>Pour que le script puissent créer un fichier et écrire dedans, il faut le dossier "cybermailing-lib-master/listen" dans le quel les scripts
-sont installés ait les droits d'écriture pour le procesus qui l'activera (en général Apache)</p>
+<p>Pour que le script puissent crÃ©er un fichier et Ã©crire dedans, il faut le dossier "cybermailing-lib-master/listen" dans le quel les scripts
+sont installÃ©s ait les droits d'Ã©criture pour le procesus qui l'activera (en gÃ©nÃ©ral Apache)</p>
 
-<p>A l'installation, le script tente de créer un fichier et d'écrire dedans, et vous prévient si il n'y parvient pas.
-Le message d'erreur indique qu'il faut changer les droits du répertoire pour 0777.</p>
+<p>A l'installation, le script tente de crÃ©er un fichier et d'Ã©crire dedans, et vous prÃ©vient si il n'y parvient pas.
+Le message d'erreur indique qu'il faut changer les droits du rÃ©pertoire pour 0777.</p>
 
-<p>Cela se fait avec votre logiciel FTP qui doit vous permettre de changer les droits d'accès aux fichiers et aux repertoires.</p>
+<p>Cela se fait avec votre logiciel FTP qui doit vous permettre de changer les droits d'accÃ¨s aux fichiers et aux repertoires.</p>
 
 <p>Dans Filezilla, par exemple, il vous suffit de : <br><br>
 
-- séléctionner le dossier "cybermailing-lib-master/listen"<br>
+- sÃ©lÃ©ctionner le dossier "cybermailing-lib-master/listen"<br>
 - cliquer droit sur la souris.<br>
 - selectionner "attributs du fichier <br>
 - indiquer 777<br>
 - puis valider.<br><br>
 
-Tous les logiciels FTP fonctionnent de manière similaire, et si vous ne vous en sortez pas Filezilla est gratuit.</p>
+Tous les logiciels FTP fonctionnent de maniÃ¨re similaire, et si vous ne vous en sortez pas Filezilla est gratuit.</p>
 
-<H2>Extension de la table de la base de donnée avec vos champs personnalisés</H2>
+<H2>Extension de la table de la base de donnÃ©e avec vos champs personnalisÃ©s</H2>
 
-<p>Lorsque vous définissez des champs personnalisés, les valeurs des ces champs sont ajoutées automatiquement à la base de donnée ainsi qu'aux fichiers de sauvegarde</p>
+<p>Lorsque vous dÃ©finissez des champs personnalisÃ©s, les valeurs des ces champs sont ajoutÃ©es automatiquement Ã  la base de donnÃ©e ainsi qu'aux fichiers de sauvegarde</p>
 </BODY>
 </HTML>
 
