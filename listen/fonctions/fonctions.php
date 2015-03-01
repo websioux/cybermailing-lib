@@ -61,7 +61,7 @@ class CyberMailing_listen{
 	function securite_bdd($string)
 		{
 			// On regarde si le type de string n'est pas fait de chiffres nombre entier (int)
-			if(!ctype_digit($string))
+			if(FONCTION_LOG_MYSQL == "ON" && !ctype_digit($string))
 			{
 				$string = mysql_real_escape_string($string);
 				$string = addcslashes($string, '%');
