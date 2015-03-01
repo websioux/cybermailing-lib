@@ -41,9 +41,18 @@ class CyberMailing_listen{
 			fclose($ficNum);
 		}
 	}
+
+	function myurldecode($sString){
+		$sString = urldecode($sString);
+		if(strpos($sString,'@')!==false) // c'est un email
+			$sString = str_replace(' ','+',$sString);
+		$sString = str_replace(array('&agrave; valider','valid&eacute;'),array('à valider','validé'),$sString);
+		return $sString;
+	}	
+	
 	function sendMail($sSubject) {
 		foreach($this->_aLowerInput as $sK=>$sV) {
-			$this->_sMessLine .= ucfirst($sK).' : '.$sV."\r\n";
+			$this->_sMessLine .= ucfirst(self::myurldecode($sK)).' : '.self::myurldecode($sV)."\r\n";
 		}
 		$sHeaders = 'From: '.FROM_EMAIL . "\r\n" . 'Reply-To: '.FROM_EMAIL;			
 		$sSubject .= 'Liste '.$_POST['list'];
