@@ -1,6 +1,7 @@
 <?php 
 require_once($_SERVER['DOCUMENT_ROOT'].'/cybermailing-api-client/_init.php');
-cyberMailing_connect::clicTracking(); 
+$oCbm = new CyberMailingClient();
+$oCbm->clicTracking(); 
 
 /*
 

@@ -66,12 +66,14 @@ class cyberMailing_connect {
 		}
 		if(!empty($aRequired))
 			foreach($aRequired as $sField) {
-				if(!empty($sAlternative))
-					if(empty($aInfo[$sField]) && empty($aInfo[$sAlternative]))
+				if(!empty($sAlternative)) {
+					if(empty($aInfo[$sField]) && empty($aInfo[$sAlternative]))  
 						die('ERROR : '.$sField.' or '.$sAlternative.' is missing');
-				else	
-					if(empty($aInfo[$sField]))
+				}	
+				else {	
+					if(empty($aInfo[$sField])) 
 						die('ERROR : '.$sField.' is missing');
+				}
 			}
 		return $aInfo;	
 	}
@@ -106,7 +108,9 @@ class cyberMailing_connect {
 			switch($aInfo['function']){
 				case 'tracking':
 					$sCurlUrl = 'http://'.$sSafeApiUrl .'/link/?'.$aInfo['tracking_id'].'&api';
+//					die($sCurlUrl); 
 					$ch = curl_init($sCurlUrl);
+
 					curl_setopt($ch,CURLOPT_FOLLOWLOCATION,FALSE);
 					curl_setopt($ch,CURLOPT_RETURNTRANSFER,TRUE);
 					break;
@@ -117,7 +121,7 @@ class cyberMailing_connect {
 					curl_setopt($ch,CURLOPT_RETURNTRANSFER,TRUE);
 					break;
 				default :
-					$sCurlUrl = 'http://'.$sSafeApiUrl . '/talk.php';
+					$sCurlUrl = 'http://'.$sSafeApiUrl . '/index.php';
 					$ch = curl_init($sCurlUrl);
 					curl_setopt($ch, CURLOPT_POST, TRUE);
 					curl_setopt($ch, CURLOPT_POSTFIELDS, $aInfo);
@@ -163,16 +167,16 @@ class cyberMailing_connect {
 		}
 	}
 	
-	public function sendContact($aInfo,$action = 'subscribe') {
+	public static function sendContact($aInfo,$action = 'subscribe') {
 		$aInfo['function'] = $action;
 		return self::talk($aInfo);
 	}
-	public function unsubscribe($aInfo) {
+	public static function unsubscribe($aInfo) {
 		$aInfo['function'] = 'unsubscribe';
 		return self::talk($aInfo);
 	}
 		
-	public function clicTracking($id='',$mode='') {
+	public static function clicTracking($id='',$mode='') {
 		if(empty($_GET[self::_trackVar]) && empty($id))
 			return;
 		if(empty($id))
@@ -190,7 +194,7 @@ class cyberMailing_connect {
 			}
 	}
 		
-	public function automaticUnsubscribe() {
+	public static function automaticUnsubscribe() {
 			$sSafeAppUrl = str_replace('http://','',URL_CYBERMAILING_APP);
 			if(!empty($_SERVER['QUERY_STRING']))
 				echo '<iframe src="http://'. $sSafeAppUrl .'pro/u/?'.$_SERVER['QUERY_STRING'].'" width="600" height="400" style="border-width:0" scrolling="auto"></iframe>';
@@ -198,7 +202,7 @@ class cyberMailing_connect {
 				echo 'Erreur : URL incomplet..';
 	}
 
-	public function reactivate() {
+	public static function reactivate() {
 			$sSafeAppUrl = str_replace('http://','',URL_CYBERMAILING_APP);
 			if(!empty($_GET['Id']))
 				header('location:http://'.$sSafeAppUrl .'reactivate.php?Id='.$_GET['Id']);
@@ -207,7 +211,7 @@ class cyberMailing_connect {
 				
 	}
 	
-	public function doubleOptinConfirmRedirect() {
+	public static function doubleOptinConfirmRedirect() {
 			$sSafeAppUrl = str_replace('http://','',URL_CYBERMAILING_APP);
 			if(!empty($_GET['Id']))
 				header('location:http://'.$sSafeAppUrl .'validsub.php?Id='.$_GET['Id']);
@@ -215,7 +219,7 @@ class cyberMailing_connect {
 				echo 'Erreur : URL incomplet..';
 	}
 
-	public function redirect() {
+	public static function redirect() {
 			$sSafeAppUrl = str_replace('http://','',URL_CYBERMAILING_APP);
 			$data = key($_GET);
 			if(!empty($data))
@@ -224,7 +228,7 @@ class cyberMailing_connect {
 				echo 'Erreur : URL incomplet..';
 	}
 
-	public function doubleOptinConfirm($id,$mode='') {
+	public static function doubleOptinConfirm($id,$mode='') {
 		if(empty($_GET['Id']) && empty($id)) {
 			echo 'Erreur : URL incomplet..';
 			return;
@@ -243,7 +247,7 @@ class cyberMailing_connect {
 		}
 	}
 		
-	public function clicManager($id='',$mode='') {
+	public static function clicManager($id='',$mode='') {
 		global $url;
 		if(empty($mode)) self::clicTracking();
 		else self::clicTrackingAsync();

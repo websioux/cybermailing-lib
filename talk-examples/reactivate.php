@@ -1,5 +1,6 @@
 <?php 
-cyberMailing_connect::reactivate(); 
+$oCbm = new CyberMailingClient();
+$oCbm->reactivate(); 
 /*
 Vous pouvez placer ce script à la racine de votre site.
 Renseignez ensuite (dans l'interface cybermailing ) le champs optionnel lien de confirmation pour : 

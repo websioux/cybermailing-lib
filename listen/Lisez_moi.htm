@@ -44,7 +44,8 @@ a été défini.</p>
 <br>- "mise à jour d'information",
 <br>- "désinscription"</p>
 
-<p>Vous spécifiez vos préférences d'action en fonction du contexte dans le fichier "definition.php"</p>
+<p>Vous spécifiez vos préférences d'action en fonction du contexte dans le fichier "definition-me.php qui sera une copie du fichier definition.php
+(les mises à jour ne contiennent pas definition-me.php ainsi ce fichier n'est jamais modifié mais il est pris en compte par la librairie) "</p>
 
 <H2>Pré-requis</H2>
 <p>Ces scripts nécessitent PHP et MYSQL en option</p>
@@ -52,9 +53,8 @@ a été défini.</p>
 
 <H2>Instruction d'installation</H2>
 <p>
-<b>1.</b> Etraire l'archive sur votre ordinateur. (Téléchargez le logiciel 7zip si nécessaire)<br><br>
-<b>2.</b> Uploader le répertoire "cybermailing-lib-master" sur votre serveur avec tous les fichiers qu'ils contient<br><br>
-<b>3.</b> Ouvrez le fichier "cybermailing-lib-master/listen/definition.php", et modifiez les données indiquées.<<br><br>
+<b>3.</b> copiez le fichier "cybermailing-api-client/listen/definition.php" en "cybermailing-api-client/listen/definition-me.php"<<br><br>
+<b>3.</b> Ouvrez le fichier "cybermailing-lib-master/listen/definition-me.php", et modifiez les données indiquées.<<br><br>
 
 Vous devrez y indiquer :<br><br>
 - votre adresse email<br>
@@ -65,16 +65,16 @@ Vous devrez y indiquer :<br><br>
 <br><br> Si vous n'avez pas de base de donnée MYSQL, vous devrez désactiver les enregistrements mysql dans le fichier définition
 
 <b>4. </b>Vérifier l'installation, en vous rendant sur votre site avec un navigateur à l'adresse
-cybermailing-lib-master/listen/install et suivre les instructions.<br><br>
+cybermailing-api-client/listen/install.php et suivez les instructions.<br><br>
 
-<b>5.</b> Une fois l'installation terminée, vous rendre dans la définition de vos listes CyberMailing (sur cybermailing.com)
-pour spécifier l'adresses de votre script d'inscription, d'annulation et avant validation<br><br>
+<b>5.</b> Une fois l'installation terminée, rendez vous dans la configuration de vos listes CyberMailing (sur cybermailing.com)
+et spécifiez l'adresses web du script feedback.php<br><br>
 
 <H2>Problèmes courrants & leur solution</H2>
 
 <b>Fichier Log et droits 0777</b>
 
-<p>Pour que le script puissent créer un fichier et écrire dedans, il faut le dossier "cybermailing-lib-master/listen" dans le quel les scripts
+<p>Pour que le script puissent créer un fichier et écrire dedans, il faut le dossier "cybermailing-apièclient/listen" dans le quel les scripts
 sont installés ait les droits d'écriture pour le procesus qui l'activera (en général Apache)</p>
 
 <p>A l'installation, le script tente de créer un fichier et d'écrire dedans, et vous prévient si il n'y parvient pas.

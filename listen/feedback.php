@@ -1,8 +1,11 @@
 <?php
 if(!isset($_POST['callback_type']))
 	die('miss callback_type');
-include('definition.php');
-include('./fonctions/fonctions.php');
+if(file_exists('./definition-me.php'))	
+	require_once('./definition-me.php');
+else
+	require_once('./definition-me.php');
+require_once('./fonctions/fonctions.php');
 $aTranslate = array(
 'subscribe_accept' => 'inscription valide',
 'subscribe_update' => 'mise a jour',
