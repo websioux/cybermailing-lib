@@ -66,12 +66,14 @@ class cyberMailing_connect {
 		}
 		if(!empty($aRequired))
 			foreach($aRequired as $sField) {
-				if(!empty($sAlternative))
-					if(empty($aInfo[$sField]) && empty($aInfo[$sAlternative]))
+				if(!empty($sAlternative)) {
+					if(empty($aInfo[$sField]) && empty($aInfo[$sAlternative]))  
 						die('ERROR : '.$sField.' or '.$sAlternative.' is missing');
-				else	
-					if(empty($aInfo[$sField]))
+				}	
+				else {	
+					if(empty($aInfo[$sField])) 
 						die('ERROR : '.$sField.' is missing');
+				}
 			}
 		return $aInfo;	
 	}
@@ -106,7 +108,9 @@ class cyberMailing_connect {
 			switch($aInfo['function']){
 				case 'tracking':
 					$sCurlUrl = 'http://'.$sSafeApiUrl .'/link/?'.$aInfo['tracking_id'].'&api';
+//					die($sCurlUrl); 
 					$ch = curl_init($sCurlUrl);
+
 					curl_setopt($ch,CURLOPT_FOLLOWLOCATION,FALSE);
 					curl_setopt($ch,CURLOPT_RETURNTRANSFER,TRUE);
 					break;

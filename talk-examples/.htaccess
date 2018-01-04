@@ -1,2 +1,0 @@
-AddType application/x-httpd-php .html .htm
-php_value auto_prepend_file “/home/web/votresite/cybermailing-api-client/_init.php”

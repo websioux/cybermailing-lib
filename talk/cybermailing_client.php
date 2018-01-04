@@ -1,10 +1,6 @@
 <?php
-//?CBM_dbug=05spfidszuf86gspo5xv5d45g
-
-if(!defined('URL_CYBERMAILING_API'))
-	define('URL_CYBERMAILING_API','api.cybermailing.com');
-if(!defined('URL_CYBERMAILING_APP'))
-	define('URL_CYBERMAILING_APP','www.cybermailing.com/mailing/');
+define('URL_CYBERMAILING_API','api.cybermailing.com');
+define('URL_CYBERMAILING_APP','www.cybermailing.com/mailing/');
 
 class CybermailingClient {
 	private $_sCbmKey='';
@@ -20,8 +16,7 @@ class CybermailingClient {
 							.fail{color:red; font-weight:bold;}
 					</style>';
 
-	public function __construct($sCbmKey,$sCbmTrackVar)
-	{
+	public function __construct($sCbmKey,$sCbmTrackVar) {
 		if(!empty($sCbmKey))
 			$this->_sCbmKey = $sCbmKey;
 		else
@@ -44,8 +39,7 @@ class CybermailingClient {
 		}
 	}
 
-	public static function checkInput($aInfo)
-	{
+	public static function checkInput($aInfo) {
 		if(empty($aInfo['function']))
 			die('ERROR : cybermailing api client function is missing');
 		switch($aInfo['function']) {
@@ -77,8 +71,7 @@ class CybermailingClient {
 		return $aInfo;	
 	}
 	
-	public function talk($aInfo)
-	{
+	public function talk($aInfo) {
 		if(empty($aInfo['CyberKey']))
 			$aInfo['CyberKey'] = $this->_sCbmKey;
 		$aInfo = self::checkInput($aInfo);
@@ -104,18 +97,6 @@ class CybermailingClient {
 		$sSafeApiUrl = str_replace('http://','',URL_CYBERMAILING_API);
 		$sSafeAppUrl = str_replace('http://','',URL_CYBERMAILING_APP);
 		switch($aInfo['function']){
-			case 'tracking':
-				$sCurlUrl = 'https://'.$sSafeApiUrl .'/link/?'.$aInfo['tracking_id'].'&api';
-				$ch = curl_init($sCurlUrl);
-				curl_setopt($ch,CURLOPT_FOLLOWLOCATION,FALSE);
-				curl_setopt($ch,CURLOPT_RETURNTRANSFER,TRUE);
-				break;
-			case 'confirm':
-				$sCurlUrl =  'https://'.$sSafeAppUrl .'validsub.php?Id='.$aInfo['tracking_id'].'&api';
-				$ch = curl_init($sCurlUrl);
-				curl_setopt($ch,CURLOPT_FOLLOWLOCATION,FALSE);
-				curl_setopt($ch,CURLOPT_RETURNTRANSFER,TRUE);
-				break;
 			default :
 				$sCurlUrl = 'https://'.$sSafeApiUrl . '/index.php';
 				$ch = curl_init($sCurlUrl);
@@ -139,28 +120,6 @@ class CybermailingClient {
 			return false;
 		return $sCurlReturn;
 	}
-	
-	public function sendContact($aInfo,$action = 'subscribe')
-	{
-		$aInfo['function'] = $action;
-		return $this->talk($aInfo);
-	}
-	public function unsubscribe($aInfo)
-	{
-		$aInfo['function'] = 'unsubscribe';
-		return $this->talk($aInfo);
-	}
-		
-	public function clicTracking($id='')
-	{
-		if(empty($_GET[$this->_sCbmTrackVar]) && empty($id))
-			return;
-		if(empty($id))
-			$id = $_GET[$this->_sCbmTrackVar];
-		$aInfo['function'] = 'tracking';
-		$aInfo['tracking_id'] = $id;
-		return $this->talk($aInfo);
-	}
 		
 	public function automaticUnsubscribe()
 	{
@@ -171,47 +130,7 @@ class CybermailingClient {
 				echo 'Erreur : URL incomplet..';
 	}
 
-	public function reactivate()
-	{
-			$sSafeAppUrl = str_replace('http://','',URL_CYBERMAILING_APP);
-			if(!empty($_GET['Id']))
-				header('location:https://'.$sSafeAppUrl .'reactivate.php?Id='.$_GET['Id']);
-			else
-				echo 'Erreur : URL incomplet..';
-				
-	}
-	
-	public function doubleOptinConfirmRedirect()
-	{
-			$sSafeAppUrl = str_replace('http://','',URL_CYBERMAILING_APP);
-			if(!empty($_GET['Id']))
-				header('location:https://'.$sSafeAppUrl .'validsub.php?Id='.$_GET['Id']);
-			else
-				echo 'Erreur : URL incomplet..';
-	}
 
-	public function redirect()
-	{
-			$sSafeAppUrl = str_replace('http://','',URL_CYBERMAILING_APP);
-			$data = key($_GET);
-			if(!empty($data))
-				header('location:http://'.$sSafeAppUrl .'link?'.$data);
-			else
-				echo 'Erreur : URL incomplet..';
-	}
-
-	public function doubleOptinConfirm($id)
-	{
-		if(empty($_GET['Id']) && empty($id)) {
-			echo 'Erreur : URL incomplet..';
-			return;
-		}
-		if(empty($id))
-			$id = $_GET['Id'];
-		$aInfo['function'] = 'confirm';
-		$aInfo['tracking_id'] = $id;
-		return $this->talk($aInfo);
-	}
 		
 	private static function array_implode( $glue, $separator, $array ) 
 	{

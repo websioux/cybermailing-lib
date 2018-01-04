@@ -1,0 +1,11 @@
+change from 1.7.4 to 1.8.0
+ - cybermailing URLS now uses HTTPS
+ - les fonctions sur site direct (sans redirectione et réservées aux compte PRO) sont abandonnées.
+ - definition of constants CYBER_TRACKVAR and CYBER_KEY are optional
+change from 1.7.2 to 1.7.3
+ - preferably use CybermailingClient (in talk/cybermailing_client.php) as main class instead of cyberMailing_connect (in talk/connect.php)
+   which is depreacated conserverd for backward compatybility. The difference is that the new is used to build an object wheras the old
+   one was using static function. Objects are more flexible for integration of this api client within other system (modules or plugins)  
+ - removed redirect functionalities (this should not be part for cybermailing api client)
+ - removed attemps to make asynchrone queries (to much dependent on environment), asynchronism will be obtained with javascript if future version
+  
