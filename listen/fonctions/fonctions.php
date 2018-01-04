@@ -1,13 +1,19 @@
-<?
+<?php
 class CyberMailing_listen{
 	private $_aInput = array();
 	private $_sFileLine = '';
 	private $_sMessLine = '';
 
+	function mysqli_connect(){
+		if(!empty($this->oConnection))
+			return ;
+		$this->oConnection = new mysqli(MYSQL_host,MYSQL_user,MYSQL_password, MYSQL_database);
+		mysqli_set_charset($this->oConnection, 'utf8');
+	}
+
 	function __construct(){
 		if(FONCTION_LOG_MYSQL == "ON") {
-			$link = mysql_connect(MYSQL_host,MYSQL_user,MYSQL_password);
-			mysql_select_db(MYSQL_database);
+			$this->mysqli_connect();
 		}
 		foreach($_POST as $sKey=>$sValue) {
 			$sKey = trim($sKey,'_');
@@ -59,12 +65,8 @@ class CyberMailing_listen{
 		mail(LOG_EMAIL,$sSubject,$this->_sMessLine,$sHeaders);
 	}
 
-	function bad_email($email) {
-	  $result = 0;
-	  if(!eregi("^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,4})$", $email)) {
-		$result = 1;
-	  }
-	  return $result;
+	function bad_email($sEmail) {
+	  return !(filter_var($sEmail, FILTER_VALIDATE_EMAIL)!==false);
 	}
 
 	function securite_bdd($string)
@@ -72,7 +74,7 @@ class CyberMailing_listen{
 			// On regarde si le type de string n'est pas fait de chiffres nombre entier (int)
 			if(FONCTION_LOG_MYSQL == "ON" && !ctype_digit($string))
 			{
-				$string = mysql_real_escape_string($string);
+				$string = mysqli_real_escape_string($string);
 				$string = addcslashes($string, '%');
 			}
 	
@@ -95,8 +97,8 @@ class CyberMailing_listen{
 	}
 	function inscription() {
 		$q = 'SELECT * FROM `'.MYSQL_table.'` WHERE cyber_id = '.$this->_aLowerInput['cyber_id'];
-		$res = mysql_query($q);
-		if(mysql_num_rows($res) == 0 ) { // new abo
+		$res = $this->oConnection->query($q);
+		if(mysqli_num_rows($res) == 0 ) { // new abo
 			$q = 'INSERT INTO `'.MYSQL_table.'`
 					(cyber_id,
 					name,
@@ -116,11 +118,11 @@ class CyberMailing_listen{
 					"'.$this->_aLowerInput['url'].'",
 					"'.$this->_aLowerInput['etat'].'"
 					)';
-			mysql_query($q);
+			$this->oConnection->query($q);
 		}
 		$q = 'SHOW COLUMNS FROM  `'.MYSQL_table.'`';
-		$res = 	mysql_query($q);
-		while($row = mysql_fetch_array($res)) {
+		$res = 	$this->oConnection->query($q);
+		while($row = mysqli_fetch_array($res)) {
 			$aFields[] = $row['Field'];
 		}
 		foreach($this->_aLowerInput as $key=>$value){
@@ -132,22 +134,22 @@ class CyberMailing_listen{
 			if(!in_array($key,$aFields) && !empty($key)) {
 					$q = 'ALTER TABLE `'.MYSQL_table .'` ADD  `'.$key.'` VARCHAR( 255 ) NOT NULL';
 					// echo "\n$q";
-					mysql_query($q);
+					$this->oConnection->query($q);
 			}
 			$q = 'UPDATE `'.MYSQL_table .'` SET `'.$key.'`="'.$value.'" WHERE cyber_id = '.$this->_aLowerInput['cyber_id'];
-			mysql_query($q);
+			$this->oConnection->query($q);
 		}
 		$q = 'SELECT ID FROM CYBERMAILING_membres WHERE email = "'.$this->_aLowerInput['email'].'"';
-		$res = mysql_query($q);
-		if(mysql_num_rows($res) == 0 ) {
+		$res = $this->oConnection->query($q);
+		if(mysqli_num_rows($res) == 0 ) {
 			$q = 'INSERT INTO CYBERMAILING_membres (email) VALUES("'.$this->_aLowerInput['email'].'")';
-			mysql_query($q);
+			$this->oConnection->query($q);
 			}
 		return;
 	}
 		
 	function desinscription() {
-		mysql_query('UPDATE '.MYSQL_table.' SET etat = "annule" WHERE cyber_id = '.$this->_aLowerInput['cyber_id']);
+		$this->oConnection->query('UPDATE '.MYSQL_table.' SET etat = "annule" WHERE cyber_id = '.$this->_aLowerInput['cyber_id']);
 	return ;		
 	}
 }

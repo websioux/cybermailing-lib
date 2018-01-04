@@ -1,4 +1,4 @@
-<?
+<?php
 	if(FONCTION_LOG_FILE == "ON")
 		{
 			// Tente l'ecriture d'un fichier
@@ -41,7 +41,7 @@
 
 			// 1. tente la connection à la base de donnée
 			
-			$link = @mysql_connect(MYSQL_host,MYSQL_user,MYSQL_password);
+			$link = @mysqli_connect(MYSQL_host,MYSQL_user,MYSQL_password);
 			 
 			if(!$link) 
 				{
@@ -54,7 +54,7 @@
 
 				}
 				
-			 if(!mysql_select_db(MYSQL_database)) 
+			 if(!mysqli_select_db(MYSQL_database)) 
 				{
 				$verif .= "<p>ERREUR : La base de donnée ".MYSQL_database." n'existe pas !</p>";
 				die($verif);
@@ -67,8 +67,8 @@
 			// 2. vérifie si la table CYBERMAILING_log est installée
 
 			$q = 'SHOW TABLES FROM '.MYSQL_database.' LIKE \''.MYSQL_table.'\'';
-			$res = mysql_query($q);
-			if(mysql_num_rows($res) == 0) //  si la table est absente, installe la table
+			$res = mysqli_query($link,$q);
+			if(mysqli_num_rows($res) == 0) //  si la table est absente, installe la table
 
 				{
 					$q = "CREATE TABLE  `".MYSQL_database."`.`".MYSQL_table."` (
@@ -84,10 +84,10 @@
 						PRIMARY KEY (  `ID` ) ,
 						INDEX (  `cyber_id` ,  `list` )
 						) ENGINE = MYISAM";
-					mysql_query($q);
+					mysqli_query($link,$q);
 					$q = 'SHOW TABLES FROM '.MYSQL_database.' LIKE \''.MYSQL_table.'\'';
-					$res = mysql_query($q);
-					if(mysql_num_rows($res) == 0) //  si l'installation a échouée
+					$res = mysqli_query($link,$q);
+					if(mysqli_num_rows($res) == 0) //  si l'installation a échouée
 						{
 							$verif .= "<p>ERREUR : la table ".MYSQL_table." n'a pas pu être installée : votre nom d'utilisateur n'a probablement pas les droits CREATE_TABLE sur la base de donne ".MYSQL_database." ou vous n'avez pas rechargé les privilèges après avoir attribué les droits de votre utilisateur</p>";
 							die($verif);
@@ -103,8 +103,8 @@
 				}
 
 			$q = 'SHOW TABLES FROM '.MYSQL_database.' LIKE \'CYBERMAILING_membres\'';
-			$res = mysql_query($q);
-			if(mysql_num_rows($res) == 0) //  si la table est absente, installe la table
+			$res = mysqli_query($link,$q);
+			if(mysqli_num_rows($res) == 0) //  si la table est absente, installe la table
 
 				{
 					$q = "CREATE TABLE  `".MYSQL_database."`.`CYBERMAILING_membres` (
@@ -112,10 +112,10 @@
 						`email` VARCHAR( 100 ) NOT NULL ,
 						PRIMARY KEY (  `ID` )
 						) ENGINE = MYISAM";
-					mysql_query($q);
+					mysqli_query($link,$q);
 					$q = 'SHOW TABLES FROM '.MYSQL_database.' LIKE \'CYBERMAILING_membres\'';
-					$res = mysql_query($q);
-					if(mysql_num_rows($res) == 0) //  si l'installation a échouée
+					$res = mysqli_query($link,$q);
+					if(mysqli_num_rows($res) == 0) //  si l'installation a échouée
 						{
 							$verif .= "<p>ERREUR : la table CYBERMAILING_membres n'a pas pu être installée : votre nom d'utilisateur n'a probablement pas les droits CREATE_TABLE sur la base de donne ".MYSQL_database." ou vous n'avez pas rechargé les privilèges après avoir attribué les droits de votre utilisateur</p>";
 							die($verif);

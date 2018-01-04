@@ -1,4 +1,4 @@
-<?
+<?php
 // adresse email sur laquelle les contacts reçus seront envoyés
 
 DEFINE('FROM_EMAIL','expediteur@gmail.com'); // indiquez l'adresse email qui envoi le message

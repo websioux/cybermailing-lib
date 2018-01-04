@@ -1,7 +1,7 @@
 <?php
 require_once($_SERVER['DOCUMENT_ROOT'].'/cybermailing-api-client/_init.php'); 
-
-cyberMailing_connect::automaticUnsubscribe(); 
+$oCbm = new CyberMailingClient();
+$oCbm->automaticUnsubscribe(); 
 /*
 
 Vous pouvez placer ce script à la racine de votre site.

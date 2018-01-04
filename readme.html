@@ -28,6 +28,10 @@ pre {margin-left:30px;}
 
 <h2>Introduction</h2>
 
+<pre>Les instructions qui suivent correspondent à l'installation de la libraire seule.
+Si cette librairie est incluse dans un plugin ou un module, ignorez ces instructions
+et reportez vous aux instructions du plugin.</pre>
+
 <pre>
 Cette libraire permet aux sites des utilisateurs de cyberMailing de communiquer avec la base de donnée
 de CyberMailing.
@@ -43,13 +47,7 @@ liées à l'inscription et à la désinscription des abonnés.
 directement de serveur à serveur et d'utiliser les fonctions de désinscription
 de confirmation et de tracking directement sur votre site. 
 
-Dans un futur proche, des moyens d'envoyer des emails de votre système
-via votre serveur dédié cybermailing y seront ajoutés.
-
-<b>Important</b> : La fonction <b>"parole"</b> ne peut être utilisée que par les clients qui
-utilisent la Formule <b>CyberMailing PRO</b>.
 </pre>
-
 <h2>Pré-Requis</h2>
 <pre>
 Apahe2, PHP 5.3+
@@ -57,9 +55,8 @@ Apahe2, PHP 5.3+
 </pre>
 
 <h2>Installation</h2>
-
 <pre>Remarque :
-Les 2 fonctions primaires sont indépendantes, et gérées par des fichiers de configuration distincts.
+Les 2 fonctions primaires sont indépendantes.
 Si vous souhaitez n'utiliser qu'une fonction, vous pouvez ignorer tout ce qui concerne l'autre.</pre>
 
 <h3>1. Dézipper l'archive sur votre ordinateur</h3>
@@ -67,9 +64,24 @@ Si vous souhaitez n'utiliser qu'une fonction, vous pouvez ignorer tout ce qui co
 <pre>Vous obtenez un dossier /cybermailing-api-client</pre>
 
 <h3>2. Modifier les fichiers de configuration</h3>
-	<h4>A. Fonction Ecoute (Toutes Formules)</h4>
+
+	<h4>A. Fonction Parole /cybermailing-api-client/config.php</h4>
+
+	<pre><div class="instructions">
+	Renomez le fichier config.php en config-me.php, ainsi vos configurations ne seront pas changées par d'éventuelles nouvelles mises à jour.
+		
+	Sur la première ligne, indiquez votre clef secrête que vous trouvez dans votre zone profil.
+	Voir votre interface cybermailing : "Mon Compte" >> "Mon Profil".
+
+	En option, sur la deuxieme ligne, vous pouvez aussi y modifier le nom de la variable de tracking
+	si celle par défaut ne vous convient pas.</pre>
 	
-	<pre><div class="instructions">Modifiez le fichier	: /cybermailing-api-client/listen/definition.php</div>
+
+	<h4>B. Fonction Ecoute /cybermailing-api-client/listen/definition.php</h4>
+	
+	<pre><div class="instructions">Modifiez le fichier	: </div>
+	Renomez le fichier definition.php en definition-me.php, ainsi vos configurations ne seront pas changées par d'éventuelles nouvelles mises à jour.
+
 	Il contient des explications, il s'agit des informations nécessaires pour utiliser
 	les fonctionalités de sauvegarde disponibles (accès mysql, adresses emails, suffix
 	du nom du fichier texte de sauvegarde).
@@ -77,17 +89,8 @@ Si vous souhaitez n'utiliser qu'une fonction, vous pouvez ignorer tout ce qui co
 	Si vous ne souhaitez pas utiliser une fonctionalité, vous pouvez laisser les valeurs par défaut.
 
 	Pour préciser vos fonctionalités et les utiliser <a href="./listen/Lisez_moi.htm">continuez ici</a></pre>
-		
-	<h4>B. Fonction Parole</h4>
-
-	<pre><div class="instructions">Modifiez le fichier	: /cybermailing-api-client/config_PRO_talk.php </div>
-	Dans la plupart des cas, il suffit d'y indiquer votre clef secrête que vous trouvez dans votre zone profil.
-	Voir votre interface cybermailing : "Mon Compte" >> "Mon Profil".
-
-	Vous pouvez aussi y modifier le nom de la variable de tracking si celle par défaut ne vous convient pas
-	ainsi que celle de redirection si vous envisagez d'utiliser cette fonctions et que la valeur par défaut
-	ne vous convient pas.</pre>
 	 
+<h3>3. Activez cette librairie client</h3>
 	<pre>Ajoutez les 2 lignes suivantes au .htaccess de votre site :
 	<div class="instructions">
 	AddType application/x-httpd-php .html .htm 
@@ -112,7 +115,7 @@ Si vous souhaitez n'utiliser qu'une fonction, vous pouvez ignorer tout ce qui co
 	<a href="CyberMailingAPIGuideutilisateurRapide.pdf">Le guide rapide</a>
 	ou <a href="CyberMailingAPIGuideutilisateur.pdf">Le guide détaille</a></pre>
 	
-<h3>3. Uploader le dossier /cybermailing-api-client à la racine de votre site.</h3>
+<h3>4. Chargez le dossier /cybermailing-api-client à la racine de votre site.</h3>
 
 <pre>Félicitation vous avez terminé !
 
