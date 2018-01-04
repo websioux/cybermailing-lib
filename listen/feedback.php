@@ -4,7 +4,11 @@ if(!isset($_POST['callback_type']))
 if(file_exists('./definition-me.php'))	
 	require_once('./definition-me.php');
 else
+<<<<<<< HEAD
 	require_once('./definition.php');
+=======
+	require_once('./definition-me.php');
+>>>>>>> e8639c7698d74c393e8da08e7d0648a4f31c2740
 require_once('./fonctions/fonctions.php');
 $aTranslate = array(
 'subscribe_accept' => 'inscription valide',
