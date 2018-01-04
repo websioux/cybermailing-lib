@@ -1,4 +1,4 @@
-Description technique de l' [API](https://www.cybermailing.com/api.php) 
+## Description technique de l' [API](https://www.cybermailing.com/api.php) 
 
 La librairie client de l'API CyberMailing permet de faire communiquer votre serveur avec CyberMailing. Nous avons séparé la fonction *talk*, ui concerne des informations que votre serveur envoi à cybermailing et la fonction *listen* qui consiste à écouter les informations transmises par Cybermailing.
 
@@ -48,7 +48,7 @@ $aContact = array(
 $oCbm->talk($aContact);
 ```
 
-# mise à jour d'un abonné connu (*talk*)
+# Mise à jour d'un abonné connu (*talk*)
 
 Si vous connaissez la liste et son adresse email vous pouvez utiliser la fonction ci-dessous, elle produira une mise à jour des nouvelles données et ne modifiera pas celles qui ne sont pas transmises.
 
