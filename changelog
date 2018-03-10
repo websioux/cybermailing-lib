@@ -1,6 +1,6 @@
 change from 1.7.4 to 1.8.0
  - cybermailing URLS now uses HTTPS
- - les fonctions sur site direct (sans redirectione et réservées aux compte PRO) sont abandonnées.
+ - les fonctions sur site direct (sans redirection et réservées aux compte PRO) sont dépréciées.
  - definition of constants CYBER_TRACKVAR and CYBER_KEY are optional
 change from 1.7.2 to 1.7.3
  - preferably use CybermailingClient (in talk/cybermailing_client.php) as main class instead of cyberMailing_connect (in talk/connect.php)

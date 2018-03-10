@@ -1,6 +1,8 @@
 <?php
-define('URL_CYBERMAILING_API','api.cybermailing.com');
-define('URL_CYBERMAILING_APP','www.cybermailing.com/mailing/');
+if(!defined('URL_CYBERMAILING_API'))
+	define('URL_CYBERMAILING_API','api.cybermailing.com');
+if(!defined('URL_CYBERMAILING_APP'))
+	define('URL_CYBERMAILING_APP','www.cybermailing.com/mailing/');
 
 class CybermailingClient {
 	private $_sCbmKey='';
@@ -16,23 +18,23 @@ class CybermailingClient {
 							.fail{color:red; font-weight:bold;}
 					</style>';
 
-	public function __construct($sCbmKey,$sCbmTrackVar) {
+	public function __construct($sCbmKey='',$sCbmTrackVar='') {
 		if(!empty($sCbmKey))
 			$this->_sCbmKey = $sCbmKey;
 		else
 			if(defined('CYBER_KEY'))
-				$this->_sCbmKey = $sCbmKey;
+				$this->_sCbmKey = CYBER_KEY;
+
 		if(!empty($sCbmTrackVar))
 			$this->_sCbmTrackVar = $sCbmTrackVar;
 		else
 			if(defined('CYBER_TRACKVAR'))
-				$this->_sCbmTrackVar = $sCbmTrackVar;
+				$this->_sCbmTrackVar = CYBER_TRACKVAR;
 			else
 				$this->_sCbmTrackVar = 'clt';
 		$sErr = '';		
 		if(empty($this->_sCbmKey))
 			$sErr = 'CyberMailing Secret Key is missing';
-		$this->_sCbmTrackVar = $sCbmTrackVar;
 		if(isset($_GET['CBM_dbug']) && $_GET['CBM_dbug']==$this->_sCbmKey) {
 			$this->_bDbug = true;
 			echo $this->sDbug.'<h1>CyberMailing API CLient Dbug Mode</h1>'.$sErr;
@@ -80,38 +82,44 @@ class CybermailingClient {
 			case 'unsubscribe' :
 			case 'update' :
 				$aInfo['Ip'] = empty($_SERVER["REMOTE_ADDR"]) ? 'local_ip' : $_SERVER["REMOTE_ADDR"];
-				if (isset($_SERVER['HTTPS'])) {
-					if ($_SERVER['HTTPS'] == 'on')
-						$http = 'https';	
-					else
-						$http = 'http';
-				}
-				else
-					$http = 'http';
 				if(empty($aInfo['Url']))
 					if(!empty($_SERVER['HTTP_HOST']) && !empty($_SERVER['REQUEST_URI']))
-						$aInfo['Url'] = $http.'://'.$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI'];
+						$aInfo['Url'] = $_SERVER['HTTP_PROTOCOL'].'://'.$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI'];
 					else
 						$aInfo['Url'] = 'local';
 		}
-		$sSafeApiUrl = str_replace('http://','',URL_CYBERMAILING_API);
-		$sSafeAppUrl = str_replace('http://','',URL_CYBERMAILING_APP);
+		$ch = curl_init();
+		curl_setopt($ch,CURLOPT_RETURNTRANSFER,true);
+		if(strpos($sSafeApiUrl,'localhost')!==false)
+			curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0);
 		switch($aInfo['function']){
+			case 'tracking':
+					$sCurlUrl = 'https://'.URL_CYBERMAILING_APP .'/link/?'.$aInfo['tracking_id'].'&api';
+					curl_setopt($ch,CURLOPT_URL,$sCurlUrl);
+					break;
+			case 'confirm':
+					$sCurlUrl =  'https://'.URL_CYBERMAILING_APP .'validsub.php?Id='.$aInfo['tracking_id'].'&api';
+					curl_setopt($ch,CURLOPT_URL,$sCurlUrl);
+					break;
 			default :
-				$sCurlUrl = 'https://'.$sSafeApiUrl . '/index.php';
-				$ch = curl_init($sCurlUrl);
-				curl_setopt($ch, CURLOPT_POST, TRUE);
-				curl_setopt($ch, CURLOPT_POSTFIELDS, $aInfo);
-				curl_setopt($ch,CURLOPT_RETURNTRANSFER,TRUE);
-				break;
+					$sCurlUrl = 'https://'.URL_CYBERMAILING_API . '/index.php';
+					curl_setopt($ch,CURLOPT_URL,$sCurlUrl);
+					curl_setopt($ch, CURLOPT_POST, TRUE);
+					curl_setopt($ch, CURLOPT_POSTFIELDS, $aInfo);
+					break;
 		}
+
 		$sDbug = '';
 		if($this->_bDbug)
 			$sDbug = '<div class="dbug section action">Query sent to CyberMailing => </div><div class="dbug body">'.$sCurlUrl.'<br>
 			POST DATA : '.var_export($aInfo,true).'
 			</div>';
-			$sCurlReturn = curl_exec($ch);
-			curl_close($ch);
+		$sCurlReturn = curl_exec($ch);
+		//~ $errors = curl_error($ch);
+		//~ $response = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+		//~ var_dump($errors);
+		//~ var_dump($response);
+		curl_close($ch);
 		if($this->_bDbug)
 			$sDbug .= '<div class="dbug section response"> <= Response from CyberMailing </div><div class="dbug body">'.$sCurlReturn .'</div>';
 		if($this->_bDbug)
@@ -120,6 +128,18 @@ class CybermailingClient {
 			return false;
 		return $sCurlReturn;
 	}
+
+	public function clicTracking($id='') {
+			if(empty($_GET[$this->_sCbmTrackVar]) 
+				&& empty($id))
+					return;
+			if(empty($id))
+				$id = $_GET[$this->_sCbmTrackVar];
+			$aInfo['function'] = 'tracking';
+			$aInfo['tracking_id'] = $id;
+			return $this->talk($aInfo);
+	}
+
 		
 	public function automaticUnsubscribe()
 	{
